@@ -6,8 +6,6 @@ var blockExplorer = "http://explorer.tritonproject.org/";
 
 var cryptonatorWidget = ["BTC-USD", "TRIT-BTC"];
 
-var easyminerDownload = "https://github.com/zone117x/cryptonote-easy-miner/releases/";
-
 var blockchainExplorer = "http://explorer.tritonproject.org/?hash={id}#blockchain_block";
 
 var transactionExplorer = "http://explorer.tritonproject.org/?hash={id}#blockchain_transaction";
