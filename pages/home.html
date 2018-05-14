@@ -286,6 +286,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                <th>#</th>
                 <th><i class="fa fa-gavel"></i> Worker</th>
                 <th><i class="fa fa-tachometer"></i> Hash Rate</th>
                 <th><i class="fa fa-clock-o"></i> Last Share Submitted</th>
@@ -487,14 +488,17 @@
         $('#workers_rows').empty();
 
         var $workersRows = $('#workers_rows');
+	var n=1;
         for(var worker in workerResults)
         {
             var row = document.createElement('tr');
-            row.innerHTML = '<td>'+ worker + '</td>' +
+            row.innerHTML = '<td>'+ n + '</td>' +
+                            '<td>'+ worker + '</td>' +
                             '<td>'+ workerResults[worker].lasthash + '</td>' +
                             '<td>'+ formatDate(workerResults[worker].lastsubmit) + '</td>';
 
             $workersRows.append(row);
+            n++;
         }
     }
 
