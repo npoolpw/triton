@@ -1,10 +1,10 @@
-var api = "http://apihost.com:port";
+var api = "http://sg1.npool.pw:3015";
 
-var poolHost = "apihost.com";
+var poolHost = "sg1.npool.pw";
 
-var blockExplorer = "http://blockexplorer.pw/coin";
+var blockExplorer = "http://blockexplorer.pw/trit";
 
-var cryptonatorWidget = ["BTC-USD", "XMR-USD"];
+var cryptonatorWidget = ["BTC-USD"];
 
 var easyminerDownload = "https://github.com/zone117x/cryptonote-easy-miner/releases/";
 
@@ -15,5 +15,5 @@ var transactionExplorer = "http://blockexplorer.pw/{symbol}/?hash={id}#blockchai
 var themeCss = "themes/default-theme.css";
 
 var networkStat = [
-        ["coin.apihost.com", "http://coin.apihost.com:port"]
+        ["npool.pw/tritonv2", "http://sg1.npool.pw:3015"]
 ];
