@@ -4,7 +4,7 @@ var poolHost = "sg1.npool.pw";
 
 var blockExplorer = "http://blockexplorer.pw/trit";
 
-var cryptonatorWidget = ["BTC-USD"];
+var cryptonatorWidget = ["BTC-USD", "TRIT-BTC"];
 
 var easyminerDownload = "https://github.com/zone117x/cryptonote-easy-miner/releases/";
 
