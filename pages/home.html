@@ -207,8 +207,8 @@
 	        }
         };
 
-        $(function() {
-            $('[data-toggle="tooltip"]').tooltip();
+        $("body").tooltip({
+            selector: '[data-toggle="tooltip"]'
         });
     </script>
 
@@ -300,6 +300,28 @@
 
     <br class="yourStats">
 
+    <h4 class="yourStats">Payment Threshold</h4>
+    <div class="row yourStats">
+        <div class="col-sm-6">
+            <div class="input-group">
+                <input class="form-control" id="yourPaymentThreshold" type="text" placeholder="Enter Payment Threshold">
+                <span class="input-group-addon" id="paymentThresholdSymbol"></span>
+            </div>
+        </div>
+	<div class="col-sm-6">
+            <div class="input-group">
+                <input class="form-control" id="yourIp" type="text" placeholder="Enter Your IP">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" id="setUp">
+                        <span><i class="fa fa-cog"></i> Set</span>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <br class="yourStats">
+
     <h4 class="yourStats">Payments</h4>
     <div class="yourStats table-responsive">
         <table class="table table-striped">
@@ -344,7 +366,7 @@
 
             updateText('networkHashrate', getReadableHashRateString(lastStats.network.difficulty / lastStats.config.coinDifficultyTarget) + '/sec');
             updateText('networkDifficulty', lastStats.network.difficulty.toString());
-            updateText('blockchainHeight', lastStats.network.height.toString());
+            updateTextLinkable('blockchainHeight', lastStats.explorer.height>0?lastStats.network.height.toString()+' | '+lastStats.explorer.height+' <span class="fa fa-question-circle" data-toggle="tooltip" title="Stop mining if not equal!"></span>':lastStats.network.height.toString());
             updateText('networkLastReward', getReadableCoins(lastStats.network.reward, 4));
             updateText('lastHash', lastStats.network.hash.substr(0, 13) + '...').setAttribute('href', getBlockchainUrl(lastStats.network.hash));
 
@@ -378,6 +400,14 @@
 
             updateText('blockSolvedTime', getReadableTime(lastStats.network.difficulty / lastStats.pool.hashrate));
             updateText('calcHashSymbol', lastStats.config.symbol);
+            updateText('paymentThresholdSymbol', lastStats.config.symbol);
+
+            if(lastStats.explorer.height>0 && Math.abs(lastStats.explorer.height-lastStats.network.height)>5) {
+                updateTextLinkable('siteInfo', '<div class="alert alert-danger" role="alert">Blockchain height at pool and explorer not synced. Please report to pool admin.</div>');
+	    }
+            else {
+                updateTextLinkable('siteInfo', '');
+            }
 
             calcEstimateProfit();
         }
@@ -677,13 +707,64 @@
         }
     }
 
-    function loadStatistics () {        
+    function loadStatistics() {        
         $.get(api + '/stats', function (stats) {
             if (stats) {
                 showStats(stats)
             }
         });      
     }
+
+    getPaymentLevel();
+    function getPaymentLevel() {        
+	var address = $('#yourStatsInput').val().trim();
+	if(!address)
+        {
+	    $('#yourStatsInput').focus();
+	    return;
+        }
+        $.get(api + '/get_miner_payout_level?address='+address, function (data) {
+            if (data) {
+                document.getElementById('yourPaymentThreshold').value = data.level;
+            }
+        });      
+    }
+
+    $('#setUp').click(function(){
+        var address = $('#yourStatsInput').val().trim();
+        var ip = $('#yourIp').val().trim();
+        var level = $('#yourPaymentThreshold').val().trim();
+        if (!address){
+            $('#yourStatsInput').focus();
+            return;
+        }
+        if (!ip){
+            $('#yourIp').focus();
+            return;
+        }
+        if (!level){
+            $('#yourPaymentThreshold').focus();
+            return;
+        }
+
+        $('#setUp').attr('enabled', false);
+        $.ajax({
+	    url : api+'/set_miner_payout_level',
+            data : {
+	        address: address,
+                ip: ip,
+                level: level
+	    },
+            dataType: 'json',
+            cache: 'false',
+            success: function(data){
+                alert(data.status);
+            },
+            complete: function(){
+                $('#setUp').attr('enabled', true);
+	    }
+	});
+    });
 
     function showStats (stats) {
         $('#cur_diff').text(stats.network.difficulty);
