@@ -1,4 +1,4 @@
-var api = "https://api.sg1.npool.pw/trit";
+var api = "https://apisg1.npool.pw/trit";
 
 var poolHost = "sg1.npool.pw";
 
@@ -13,7 +13,7 @@ var transactionExplorer = "http://explorer.tritonproject.org/?hash={id}#blockcha
 var themeCss = "themes/default-theme.css";
 
 var networkStat = [
-        ["npool.pw/triton", "https://api.sg1.npool.pw/trit"],
+        ["npool.pw/triton", "https://apisg1.npool.pw/trit"],
         ["triton.fatpanda.club", "http://54.148.101.99:8018"],
         ["luckypool.io", "https://trit.luckypool.io/api/pool"],
         ["trit.newpool.pw", "http://trit.newpool.pw:8120"],
